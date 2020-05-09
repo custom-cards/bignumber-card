@@ -14,6 +14,7 @@ A simple card to display big numbers for sensors. It also supports severity leve
 | entity | string | **Required** | `sensor.my_temperature`
 | min | number | optional | Minimum value. If specified you get bar display
 | max | number | optional | Maximum value. Must be specified if you added min
+| style | string| optional | Default bar color. Can be either hex or HA variable. Example: 'var(--label-badge-green)'
 | from | string | left | Direction from where the bar will start filling (must have min/max specified)
 | severity | list | optional | A list of severity objects. Items in list must be ascending based on 'value'
 
@@ -38,6 +39,7 @@ Severity object
   from: bottom
   min: 0
   max: 100
+  style: 'var(--label-badge-blue)'
   severity:
     - value: 70
       style: 'var(--label-badge-green)'
