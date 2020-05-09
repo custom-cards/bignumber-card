@@ -80,7 +80,6 @@ class BigNumberCard extends HTMLElement {
   _getColor(entityState, config) {
     if (config.severity) {
       const severity = this._computeSeverity(entityState, config.severity);
-      console.log('_getColor', entityState, config, severity);
       if (severity && severity.color) return severity.color;
     }
     if (config.color) return config.color;
@@ -90,7 +89,6 @@ class BigNumberCard extends HTMLElement {
   _getStyle(entityState, config) {
     if (config.severity) {
       const severity = this._computeSeverity(entityState, config.severity);
-      console.log('_getStyle', entityState, config, severity);
       if (severity && severity.style) return severity.style;
     }
     if (config.style) return config.style;
