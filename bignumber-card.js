@@ -1,5 +1,6 @@
 class BigNumberCard extends HTMLElement {
   _DEFAULT_STYLE = 'var(--label-badge-blue)';
+  _DEFAULT_COLOR = 'var(--primary-text-color)';
   
   constructor() {
     super();
@@ -25,6 +26,7 @@ class BigNumberCard extends HTMLElement {
     style.textContent = `
       ha-card {
         text-align: center;
+        --bignumber-color: ${this._getColor(null, cardConfig)};
         --bignumber-fill-color: ${this._getStyle(null, cardConfig)};
         --bignumber-percent: 100%;
         --bignumber-direction: ${cardConfig.from};
@@ -35,12 +37,12 @@ class BigNumberCard extends HTMLElement {
       #value {
         font-size: calc(var(--base-unit) * 1.3);
         line-height: calc(var(--base-unit) * 1.3);
-        color: var(--primary-text-color);
+        color: var(--bignumber-color);
       }
       #title {
         font-size: calc(var(--base-unit) * 0.5);
         line-height: calc(var(--base-unit) * 0.5);
-        color: var(--primary-text-color);
+        color: var(--bignumber-color);
       }
     `;
     card.appendChild(content);
@@ -70,19 +72,26 @@ class BigNumberCard extends HTMLElement {
   _computeSeverity(stateValue, sections) {
     if (stateValue === undefined || stateValue === null) return;
     const numberValue = Number(stateValue);
-    let style;
-    sections.forEach(section => {
-      if (numberValue <= section.value && !style) {
-        style = section.style;
-      }
-    });
-    return style;
+    for (const section of sections) {
+      if (numberValue <= section.value) return section;
+    }
+  }
+
+  _getColor(entityState, config) {
+    if (config.severity) {
+      const severity = this._computeSeverity(entityState, config.severity);
+      console.log('_getColor', entityState, config, severity);
+      if (severity && severity.color) return severity.color;
+    }
+    if (config.color) return config.color;
+    return this._DEFAULT_COLOR;
   }
 
   _getStyle(entityState, config) {
     if (config.severity) {
-      const style = this._computeSeverity(entityState, config.severity);
-      if (style) return style;
+      const severity = this._computeSeverity(entityState, config.severity);
+      console.log('_getStyle', entityState, config, severity);
+      if (severity && severity.style) return severity.style;
     }
     if (config.style) return config.style;
     return this._DEFAULT_STYLE;
@@ -103,6 +112,7 @@ class BigNumberCard extends HTMLElement {
         root.querySelector("ha-card").style.setProperty('--bignumber-percent', `${this._translatePercent(entityState, config.min, config.max)}%`);
       }
       root.querySelector("ha-card").style.setProperty('--bignumber-fill-color', `${this._getStyle(entityState, config)}`);
+      root.querySelector("ha-card").style.setProperty('--bignumber-color', `${this._getColor(entityState, config)}`);
       root.getElementById("value").textContent = `${entityState} ${measurement}`;
       this._entityState = entityState
     }
