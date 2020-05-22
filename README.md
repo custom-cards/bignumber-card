@@ -14,6 +14,7 @@ A simple card to display big numbers for sensors. It also supports severity leve
 | entity | string | **Required** | `sensor.my_temperature`
 | min | number | optional | Minimum value. If specified you get bar display
 | max | number | optional | Maximum value. Must be specified if you added min
+| color | string | `var(--primary-text-color)` | Default font color. Can be either hex or HA variable. Example: 'var(--secondary-text-color)'
 | style | string| `var(--label-badge-blue)` | Default bar color. Can be either hex or HA variable. Example: 'var(--label-badge-green)'
 | from | string | left | Direction from where the bar will start filling (must have min/max specified)
 | severity | list | optional | A list of severity objects. Items in list must be ascending based on 'value'
@@ -23,7 +24,8 @@ Severity object
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
 | value | number | **Required** | Value until which to use this severity
-| style | number | **Required** | Color of severity. Can be either hex or HA variable. Example: 'var(--label-badge-green)'
+| style | string | **Required** | Color of severity. Can be either hex or HA variable. Example: 'var(--label-badge-green)'
+| color | string | `var(--primary-text-color)` | Font color of the severity. Can be either hex or HA variable. Example: 'var(--secondary-text-color)'
 
 ### WARNINGS
 - Make sure you use ascending object values to have consistent behaviour
@@ -39,6 +41,7 @@ Severity object
   from: bottom
   min: 0
   max: 100
+  color: '#000000'
   style: 'var(--label-badge-blue)'
   severity:
     - value: 70
@@ -47,4 +50,5 @@ Severity object
       style: 'var(--label-badge-yellow)'
     - value: 100
       style: 'var(--label-badge-red)'
+      color: '#FFFFFF'
 ```
