@@ -32,7 +32,7 @@ class BigNumberCard extends HTMLElement {
         --bignumber-direction: ${cardConfig.from};
         --base-unit: ${cardConfig.scale};
         padding: calc(var(--base-unit)*0.6) calc(var(--base-unit)*0.3);
-        background: linear-gradient(to var(--bignumber-direction), var(--card-background-color) var(--bignumber-percent), var(--bignumber-fill-color) var(--bignumber-percent));
+        background: linear-gradient(to var(--bignumber-direction), var(--ha-card-background) var(--bignumber-percent), var(--bignumber-fill-color) var(--bignumber-percent));
       }
       #value {
         font-size: calc(var(--base-unit) * 1.3);
