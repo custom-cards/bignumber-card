@@ -16,6 +16,11 @@ class BigNumberCard extends HTMLElement {
     const cardConfig = Object.assign({}, config);
     if (!cardConfig.scale) cardConfig.scale = "50px";
     if (!cardConfig.from) cardConfig.from = "left";
+    if (!cardConfig.noneString) cardConfig.nonestring = null;
+    if (!cardConfig.noneCardClass) cardConfig.noneCardClass = null;
+    if (!cardConfig.noneValueClass) cardConfig.noneValueClass = null;
+    this.isNoneConfig = Boolean(cardConfig.noneString || cardConfig.noneCardClass || cardConfig.noneValueClass)
+
     const card = document.createElement('ha-card');
     const content = document.createElement('div');
     content.id = "value"
@@ -89,9 +94,9 @@ class BigNumberCard extends HTMLElement {
   _getStyle(entityState, config) {
     if (config.severity) {
       const severity = this._computeSeverity(entityState, config.severity);
-      if (severity && severity.style) return severity.style;
+      if (severity && severity.bnStyle) return severity.bnStyle;
     }
-    if (config.style) return config.style;
+    if (config.bnStyle) return config.bnStyle;
     return this._DEFAULT_STYLE;
   }
 
@@ -113,6 +118,21 @@ class BigNumberCard extends HTMLElement {
       root.querySelector("ha-card").style.setProperty('--bignumber-color', `${this._getColor(entityState, config)}`);
       root.getElementById("value").textContent = `${entityState} ${measurement}`;
       this._entityState = entityState
+      if (`${entityState}` === "None" && this.isNoneConfig) {
+        if (config.noneString) {
+          root.getElementById("value").textContent = config.noneString;
+        }
+        if (config.noneCardClass) {
+          root.querySelector("ha-card").classList.add(config.noneCardClass)
+        }
+        if (config.noneValueClass) {
+          root.getElementById("value").classList.add(config.noneValueClass)
+        }
+      }
+      if  (`${entityState}` !== "None" &&  this.isNoneConfig) {
+        root.querySelector("ha-card").classList.remove(config.noneCardClass)
+        root.getElementById("value").classList.remove(config.noneValueClass)
+      }
     }
     root.lastChild.hass = hass;
   }
