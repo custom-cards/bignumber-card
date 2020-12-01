@@ -21,6 +21,7 @@ A simple card to display big numbers for sensors. It also supports severity leve
 | noneString | string | optional | String to use for value if value == None
 | noneCardClass | string | optional | CSS class to add to card if value == None
 | noneValueClass | string | optional | CSS class to add to value if value == None
+| round | int | optional | Number of decimals to round to. (If not present, do not round.)
 
 
 #### Severity object
