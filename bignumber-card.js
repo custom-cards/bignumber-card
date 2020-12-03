@@ -116,24 +116,25 @@ class BigNumberCard extends HTMLElement {
       }
       root.querySelector("ha-card").style.setProperty('--bignumber-fill-color', `${this._getStyle(entityState, config)}`);
       root.querySelector("ha-card").style.setProperty('--bignumber-color', `${this._getColor(entityState, config)}`);
+      this._entityState = entityState
       let value = (config.round == null ? entityState : parseFloat(entityState).toFixed(config.round)) 
       root.getElementById("value").textContent = `${value} ${measurement}`;
-      this._entityState = entityState
-      if (`${entityState}` === "None" && this.isNoneConfig) {
-        if (config.noneString) {
-          root.getElementById("value").textContent = config.noneString;
+      if (this.isNoneConfig){
+        if (isNaN(value)) {
+          if (config.noneString) {
+            root.getElementById("value").textContent = config.noneString;
+          }
+          if (config.noneCardClass) {
+            root.querySelector("ha-card").classList.add(config.noneCardClass)
+          }
+          if (config.noneValueClass) {
+            root.getElementById("value").classList.add(config.noneValueClass)
+          }
+        } else {
+          root.querySelector("ha-card").classList.remove(config.noneCardClass)
+          root.getElementById("value").classList.remove(config.noneValueClass)
         }
-        if (config.noneCardClass) {
-          root.querySelector("ha-card").classList.add(config.noneCardClass)
-        }
-        if (config.noneValueClass) {
-          root.getElementById("value").classList.add(config.noneValueClass)
-        }
-      }
-      if  (`${entityState}` !== "None" &&  this.isNoneConfig) {
-        root.querySelector("ha-card").classList.remove(config.noneCardClass)
-        root.getElementById("value").classList.remove(config.noneValueClass)
-      }
+      }  
     }
     root.lastChild.hass = hass;
   }
