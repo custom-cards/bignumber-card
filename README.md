@@ -1,4 +1,4 @@
-# Big number card
+# Big number card 
 
 A simple card to display big numbers for sensors. It also supports severity levels as background.
 
@@ -18,6 +18,7 @@ A simple card to display big numbers for sensors. It also supports severity leve
 | style | string| `var(--label-badge-blue)` | Default bar color. Can be either hex or HA variable. Example: 'var(--label-badge-green)'
 | from | string | left | Direction from where the bar will start filling (must have min/max specified)
 | severity | list | optional | A list of severity objects. Items in list must be ascending based on 'value'
+| hideunit | boolean | optional | hide the unit of measurement if set to true. If absent, unit of measurement will be shown
 
 Severity object
 
@@ -37,10 +38,12 @@ Severity object
 - type: custom:bignumber-card
   title: Humidity
   entity: sensor.outside_humidity
+  hideunit: true
   scale: 30px
   from: bottom
   min: 0
   max: 100
+  hideunit: true
   color: '#000000'
   style: 'var(--label-badge-blue)'
   severity:

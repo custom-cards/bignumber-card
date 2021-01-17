@@ -111,7 +111,10 @@ class BigNumberCard extends HTMLElement {
       }
       root.querySelector("ha-card").style.setProperty('--bignumber-fill-color', `${this._getStyle(entityState, config)}`);
       root.querySelector("ha-card").style.setProperty('--bignumber-color', `${this._getColor(entityState, config)}`);
-      root.getElementById("value").textContent = `${entityState} ${measurement}`;
+      if (config.hideunit==true) 
+        { root.getElementById("value").textContent = `${entityState}`; }
+      else 
+        { root.getElementById("value").textContent = `${entityState} ${measurement}`; }
       this._entityState = entityState
     }
     root.lastChild.hass = hass;
