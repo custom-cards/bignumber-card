@@ -38,7 +38,6 @@ Severity object
 - type: custom:bignumber-card
   title: Humidity
   entity: sensor.outside_humidity
-  hideunit: true
   scale: 30px
   from: bottom
   min: 0
