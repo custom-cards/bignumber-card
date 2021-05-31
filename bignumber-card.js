@@ -123,3 +123,12 @@ class BigNumberCard extends HTMLElement {
 }
 
 customElements.define('bignumber-card', BigNumberCard);
+
+// Configure the preview in the Lovelace card picker
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: 'bignumber-card',
+  name: 'Big number card',
+  preview: false,
+  description: 'A simple card to display big numbers for sensors. It also supports severity levels as background.'
+});
