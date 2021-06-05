@@ -16,6 +16,11 @@ class BigNumberCard extends HTMLElement {
     const cardConfig = Object.assign({}, config);
     if (!cardConfig.scale) cardConfig.scale = "50px";
     if (!cardConfig.from) cardConfig.from = "left";
+    if (!cardConfig.noneString) cardConfig.nonestring = null;
+    if (!cardConfig.noneCardClass) cardConfig.noneCardClass = null;
+    if (!cardConfig.noneValueClass) cardConfig.noneValueClass = null;
+    this.isNoneConfig = Boolean(cardConfig.noneString || cardConfig.noneCardClass || cardConfig.noneValueClass)
+
     const card = document.createElement('ha-card');
     const content = document.createElement('div');
     content.id = "value"
@@ -32,7 +37,7 @@ class BigNumberCard extends HTMLElement {
         --bignumber-direction: ${cardConfig.from};
         --base-unit: ${cardConfig.scale};
         padding: calc(var(--base-unit)*0.6) calc(var(--base-unit)*0.3);
-        background: linear-gradient(to var(--bignumber-direction), var(--paper-card-background-color) var(--bignumber-percent), var(--bignumber-fill-color) var(--bignumber-percent));
+        background: linear-gradient(to var(--bignumber-direction), var(--card-background-color) var(--bignumber-percent), var(--bignumber-fill-color) var(--bignumber-percent));
       }
       #value {
         font-size: calc(var(--base-unit) * 1.3);
@@ -89,9 +94,9 @@ class BigNumberCard extends HTMLElement {
   _getStyle(entityState, config) {
     if (config.severity) {
       const severity = this._computeSeverity(entityState, config.severity);
-      if (severity && severity.style) return severity.style;
+      if (severity && severity.bnStyle) return severity.bnStyle;
     }
-    if (config.style) return config.style;
+    if (config.bnStyle) return config.bnStyle;
     return this._DEFAULT_STYLE;
   }
 
@@ -116,6 +121,24 @@ class BigNumberCard extends HTMLElement {
       else 
         { root.getElementById("value").textContent = `${entityState} ${measurement}`; }
       this._entityState = entityState
+      let value = (config.round == null ? entityState : parseFloat(entityState).toFixed(config.round)) 
+      root.getElementById("value").textContent = `${value} ${measurement}`;
+      if (this.isNoneConfig){
+        if (isNaN(value)) {
+          if (config.noneString) {
+            root.getElementById("value").textContent = config.noneString;
+          }
+          if (config.noneCardClass) {
+            root.querySelector("ha-card").classList.add(config.noneCardClass)
+          }
+          if (config.noneValueClass) {
+            root.getElementById("value").classList.add(config.noneValueClass)
+          }
+        } else {
+          root.querySelector("ha-card").classList.remove(config.noneCardClass)
+          root.getElementById("value").classList.remove(config.noneValueClass)
+        }
+      }  
     }
     root.lastChild.hass = hass;
   }
