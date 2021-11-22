@@ -44,6 +44,7 @@ class BigNumberCard extends HTMLElement {
         line-height: calc(var(--base-unit) * 1.3);
         color: var(--bignumber-color);
       }
+      #value small{opacity: 0.5}
       #title {
         font-size: calc(var(--base-unit) * 0.5);
         line-height: calc(var(--base-unit) * 0.5);
@@ -121,7 +122,7 @@ class BigNumberCard extends HTMLElement {
       if (config.hideunit==true) 
         { root.getElementById("value").textContent = `${value}`; }
       else 
-        { root.getElementById("value").textContent = `${value} ${measurement}`; }
+        { root.getElementById("value").innerHTML = `${value}<small>${measurement}</small>`; }
       if (this.isNoneConfig){
         if (isNaN(value)) {
           if (config.noneString) {
