@@ -12,6 +12,7 @@ A simple card to display big numbers for sensors. It also supports severity leve
 | title | string | optional | Name to display on card
 | scale | string | 50px | Base scale for card: '50px'
 | entity | string | **Required** | `sensor.my_temperature`
+| attribute | string | optional | the entity attribute you want to display e.g. `current_temperature`.  The entity state will be shown if not defined.
 | min | number | optional | Minimum value. If specified you get bar display
 | max | number | optional | Maximum value. Must be specified if you added min
 | color | string | `var(--primary-text-color)` | Default font color. Can be either hex or HA variable. Example: 'var(--secondary-text-color)'
