@@ -1,6 +1,6 @@
 class BigNumberCard extends HTMLElement {
-  _DEFAULT_STYLE = 'var(--label-badge-blue)';
-  _DEFAULT_COLOR = 'var(--primary-text-color)';
+  _DEFAULT_STYLE(){return 'var(--label-badge-blue)';}
+  _DEFAULT_COLOR(){return 'var(--primary-text-color)';}
   
   constructor() {
     super();
@@ -89,7 +89,7 @@ class BigNumberCard extends HTMLElement {
       if (severity && severity.color) return severity.color;
     }
     if (config.color) return config.color;
-    return this._DEFAULT_COLOR;
+    return this._DEFAULT_COLOR();
   }
 
   _getStyle(entityState, config) {
@@ -98,7 +98,7 @@ class BigNumberCard extends HTMLElement {
       if (severity && severity.bnStyle) return severity.bnStyle;
     }
     if (config.bnStyle) return config.bnStyle;
-    return this._DEFAULT_STYLE;
+    return this._DEFAULT_STYLE();
   }
 
   _translatePercent(value, min, max) {
